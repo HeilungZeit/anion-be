@@ -176,8 +176,11 @@ export class AnimeService {
 
       return transformToCamelCase(response.data.response);
     } catch (error) {
-      throw new Error(
-        `Ошибка при поиске аниме: ${JSON.stringify(queryPayload)}; ${error.message}`,
+      console.log(error);
+      throw new HttpException(
+        `Ошибка при поиске аниме: ${JSON.stringify(queryPayload)}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        { cause: error },
       );
     }
   }
