@@ -1,11 +1,21 @@
-import { Module } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import * as path from 'path';
 
-import { ConfigModule } from './config/config.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+import { AnimeModule } from './modules/anime/anime.module';
+import { HttpModule } from './modules/http/http.module';
 
 @Module({
-  imports: [ConfigModule.register({ folder: './' })],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV}`),
+    }),
+    AnimeModule,
+    HttpModule,
+  ],
   controllers: [],
-  providers: [JwtService],
+  providers: [],
 })
 export class AppModule {}
